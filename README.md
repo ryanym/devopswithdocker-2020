@@ -1,4 +1,4 @@
 # devopswithdocker-2020
-- [ ] part1
+- [x] part1
 - [ ] part2
 - [ ] part3

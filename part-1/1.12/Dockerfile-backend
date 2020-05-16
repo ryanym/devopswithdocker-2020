@@ -1,0 +1,9 @@
+FROM node
+WORKDIR /app
+COPY backend-example-docker /app
+
+EXPOSE 8000
+ENV FRONT_URL=http://192.168.100.126:5000
+RUN npm install
+
+CMD ["npm", "start"]

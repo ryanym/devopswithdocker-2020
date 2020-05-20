@@ -1,0 +1,50 @@
+version: '3.3' 
+
+services: 
+  backend: 
+    image: backend
+    build:
+      context: ../
+      dockerfile: ./2.3/Dockerfile-backend
+    ports: 
+      - 8000:8000
+    environment: 
+      - REDIS=redis
+      - DB_USERNAME=devopswithdocker
+      - DB_PASSWORD=example
+      - DB_HOST=postgres
+    volumes: 
+      - ./logs.txt:/app/logs.txt
+    container_name: backend
+    depends_on: 
+      - redis
+  frontend: 
+    image: frontend
+    build:
+      context: ../
+      dockerfile: 2.3/Dockerfile-frontend
+    ports: 
+      - 5000:5000
+    environment: 
+      - API_URL=http://colasloth.com:8000
+    container_name: frontend
+    depends_on: 
+      - backend
+  redis:
+    image: redis
+    restart: unless-stopped
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    environment: 
+      - POSTGRES_USER=devopswithdocker
+      - POSTGRES_PASSWORD=example
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    depends_on: 
+      - frontend
+      - backend

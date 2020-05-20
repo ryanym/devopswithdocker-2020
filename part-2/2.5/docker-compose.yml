@@ -1,0 +1,29 @@
+version: '3.3' 
+
+services: 
+  devopsdockeruh-backend: 
+    image: backend
+    build:
+      context: ../
+      dockerfile: ./2.3/Dockerfile-backend
+    ports: 
+      - 8000:8000
+    environment: 
+      - REDIS=redis
+    volumes: 
+      - ./logs.txt:/app/logs.txt
+    container_name: backend
+  devopsdockeruh-frontend: 
+    image: frontend
+    build:
+      context: ../
+      dockerfile: 2.3/Dockerfile-frontend
+    ports: 
+      - 5000:5000
+    environment: 
+      - API_URL=http://colasloth.com:8000
+    container_name: frontend
+  redis:
+    image: redis
+    restart: unless-stopped
+    

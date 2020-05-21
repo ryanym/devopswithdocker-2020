@@ -1,0 +1,12 @@
+FROM node
+WORKDIR /app
+COPY frontend-example-docker /app
+
+
+EXPOSE 5000
+RUN npm install -g serve
+RUN npm install
+
+RUN npm run build
+
+CMD ["serve", "-s", "-l", "5000", "dist"]
